@@ -24,3 +24,4 @@ To start the program execution, run following command
 The generated story should be written in same directory in file 
 >output.txt
 
+The character encoding used is UTF-8, which means trigram service supports all popular languages and scripts.
