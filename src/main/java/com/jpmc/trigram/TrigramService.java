@@ -58,9 +58,10 @@ public class TrigramService {
 	}
 
 	/**
+	 * This method reads the input file line by line into a StringBuilder
+	 * @param String inputFile - path of the file along with file name
 	 * @return StringBuilder which holds all the contents of the file
 	 * @throws IOException if program fails to read the file
-	 * This method reads the input file line by line into a StringBuilder
 	 */
 	public StringBuilder readFile(String inputFile) throws IOException {
 		StringBuilder builder = new StringBuilder();
@@ -78,12 +79,12 @@ public class TrigramService {
 	}
 
 	/**
-	 * @param String - this is the pre-processed text
-	 * @throws InsufficientDataException when there is insufficient data to process
 	 * This method builds the trigram map where key is a WordPair and value
 	 * is a list of words that follow this WordPair.
 	 * A blank entry is added in list for last WordPair to prevent program running indefinitely.
 	 * To introduce random selection, the list for each WordPair is shuffled.
+	 * @param String input - this is the pre-processed text
+	 * @throws InsufficientDataException when there is insufficient data to process
 	 */
 	public void processContent(String input) throws InsufficientDataException {
 		if (input == null)
@@ -117,10 +118,10 @@ public class TrigramService {
 	}
 
 	/**
-	 * @param String - input text
-	 * @return String - cleaned text	
 	 * This method replaces new line with single space
 	 * and trims multiple spaces to single space
+	 * @param String raw - raw input text
+	 * @return String - pre-processed text	
 	 */
 	public String preProcessContent(String raw) {
 		String processed = "";
@@ -130,8 +131,8 @@ public class TrigramService {
 	}
 
 	/**
-	 * @param int - this is the index of the WordPair that starts the story
 	 * This method triggers a recursive function by passing WordPair and initial value of story contents
+	 * @param int startingWordPair - this is the index of the WordPair that starts the story
 	 */
 	public void generateCombinations(int startingWordPair) {
 		WordPair pair = startWords.get(startingWordPair);
@@ -142,8 +143,6 @@ public class TrigramService {
 	}
 
 	/**
-	 * @param WordPair - this is the WordPair at the beginning of story
-	 * @param List<String> - this is the list which stores series of words in the story
 	 * This method looks up the map for list of possible words that follow current WordPair
 	 * Words are picked up in list order. The word is included in the story and next WordPair is
 	 * created and passed to recursion method.
@@ -151,6 +150,8 @@ public class TrigramService {
 	 * If a particular element in the list for WordPair is already covered, we skip re-processing it.
 	 * Exception to this is only when the list size is 1 for any WordPair.
 	 * The break condition for recursion is that when for any WordPair, there is no following word.
+	 * @param WordPair pair - this is the WordPair at the beginning of story
+	 * @param List<String> combination - this is the list which stores series of words in the story
 	 */
 	public void recursion(WordPair pair, List<String> combination) {
 		Optional<List<String>> list = Optional.ofNullable(analyzedContent.get(pair));
@@ -174,18 +175,21 @@ public class TrigramService {
 	}
 
 	/**
+	 * This method generates a unique string using words in the pair and index
+	 * of the element in the word list
+	 * Example - Hello_world_1
 	 * @param WordPair - current WordPair
 	 * @param int - index of element processed
-	 * @return String - generate the unique string using words in the pair and index
-	 * Example - Hello_world_1
+	 * @return String - generated unique string
 	 */
 	public String generateComb(WordPair pair, int index) {
 		return pair.getFirst() + "_" + pair.getSecond() + "_" + index;
 	}
 
 	/**
-	 * @throws IOException if program fails to write to file
 	 * This method writes the output story into the file
+	 * @param String outputFile - path of the file along with file name
+	 * @throws IOException if program fails to write to file
 	 */
 	public void writeToFile(String outputFile) throws IOException {
 		try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),StandardCharsets.UTF_8))) {
@@ -199,10 +203,12 @@ public class TrigramService {
 	}
 
 	/**
-	 * @throws IOException when there is failure during read/write of the file
-	 * @throws InsufficientDataException when the input file contents are insufficient for trigram analysis
 	 * This is manager method that sequentially triggers file read, content processing, 
 	 * story combination generation and file write methods.
+	 * @param String inputFile - path of the file along with file name
+	 * @param String outputFile - path of the file along with file name
+	 * @throws IOException when there is failure during read/write of the file
+	 * @throws InsufficientDataException when the input file contents are insufficient for trigram analysis
 	 */
 	public void process(String inputFile, String outputFile) throws IOException, InsufficientDataException {
 		LOGGER.info("Starting the trigram program");	
