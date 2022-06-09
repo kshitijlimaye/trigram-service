@@ -30,11 +30,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
@@ -63,6 +58,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<shadedArtifactAttached>false</shadedArtifactAttached>
 							<transformers>
 								<!-- add Main-Class to manifest file -->
 								<transformer

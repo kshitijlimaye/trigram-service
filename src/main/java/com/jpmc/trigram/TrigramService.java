@@ -19,14 +19,12 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.jpmc.trigram.exception.InsufficientDataException;
 import com.jpmc.trigram.model.WordPair;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * Trigram Service - this service generates a story based on the trigram
@@ -41,9 +39,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Log4j2
 public class TrigramService {
-	
-	private static final Logger LOGGER = LogManager.getLogger(TrigramService.class);
 
 	private Map<WordPair, List<String>> analyzedContent;
 	private List<WordPair> startWords;
@@ -74,7 +71,7 @@ public class TrigramService {
 				line = br.readLine();
 			}
 		} catch (IOException e) {
-			LOGGER.error("Could not read the file!");
+			log.error("Could not read the file!");
 			throw e;
 		}
 		return builder;
@@ -199,7 +196,7 @@ public class TrigramService {
 				br.write(String.join(" ", list));
 			}
 		} catch (IOException e) {
-			LOGGER.error("Could not write to the file!");
+			log.error("Could not write to the file!");
 			throw e;
 		}
 	}
@@ -213,18 +210,18 @@ public class TrigramService {
 	 * @throws InsufficientDataException when the input file contents are insufficient for trigram analysis
 	 */
 	public void process(String inputFile, String outputFile) throws IOException, InsufficientDataException {
-		LOGGER.info("Starting the trigram program");	
+		log.info("Starting the trigram program");	
 		StringBuilder sb = this.readFile(inputFile);		
-		LOGGER.info("File contents read");
+		log.info("File contents read");
 		this.processContent(sb.toString());
-		LOGGER.info("Trigram analysis completed for the file contents");
+		log.info("Trigram analysis completed for the file contents");
 		// generate random index to pick up random word
 		int startWordIndex = (this.random.nextInt() & Integer.MAX_VALUE) % (this.getStartWords().size());
-		LOGGER.info("Random word pair picked up to start generating output is : " + this.getStartWords().get(startWordIndex));
+		log.info("Random word pair picked up to start generating output is : " + this.getStartWords().get(startWordIndex));
 		this.generateCombinations(startWordIndex);
-		LOGGER.info("A new story using trigrams has been created");
+		log.info("A new story using trigrams has been created");
 		this.writeToFile(outputFile);
-		LOGGER.info("The output has been written into the file");
+		log.info("The output has been written into the file");
 	}
 
 	public static void main(String[] args) {
@@ -232,7 +229,7 @@ public class TrigramService {
 		try {
 			obj.process("input.txt","output.txt");
 		} catch (IOException | InsufficientDataException e) {
-			LOGGER.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 }
