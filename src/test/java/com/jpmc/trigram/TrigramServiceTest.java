@@ -38,17 +38,17 @@ public class TrigramServiceTest {
 	
 	@Test
 	void whenInputNull_shouldThrowInsufficientDataException() throws InsufficientDataException {
-		assertThrows(InsufficientDataException.class, () -> trigramService.processContent(null));
+		assertThrows(InsufficientDataException.class, () -> trigramService.analyzeContent(null));
 	}
 	
 	@Test
 	void whenInputBlank_shouldThrowInsufficientDataException() throws InsufficientDataException {
-		assertThrows(InsufficientDataException.class, () -> trigramService.processContent(""));
+		assertThrows(InsufficientDataException.class, () -> trigramService.analyzeContent(""));
 	}
 	
 	@Test
 	void whenInputContainsLessThan3Words_shouldThrowInsufficientDataException() throws InsufficientDataException {
-		assertThrows(InsufficientDataException.class, () -> trigramService.processContent("Hello world"));
+		assertThrows(InsufficientDataException.class, () -> trigramService.analyzeContent("Hello world"));
 	}
 	
 	@Test
@@ -67,16 +67,16 @@ public class TrigramServiceTest {
 	@Test
 	void whenInputHas3Words_shouldProcessContents() throws InsufficientDataException {
 		String input = "How are you";
-		trigramService.processContent(input);
-		trigramService.generateCombinations(0);
+		trigramService.analyzeContent(input);
+		trigramService.generateStory(0);
 		assertEquals("How are you ", String.join(" ",trigramService.getCombinations().iterator().next()));
 	}
 	
 	@Test
 	void whenSampleInput_shouldReturnExpectedOutput() throws InsufficientDataException {
 		String input = "I wish I may I wish I might";
-		trigramService.processContent(input);
-		trigramService.generateCombinations(2);
+		trigramService.analyzeContent(input);
+		trigramService.generateStory(2);
 		String result = String.join(" ",trigramService.getCombinations().iterator().next());
 		System.out.println(result);
 		assertEquals(true,result.equals("I may I wish I may I wish I might ") || result.equals("I may I wish I might "));

@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -49,11 +49,11 @@ public class TrigramService {
 	private Random random;
 
 	public TrigramService() {
-		analyzedContent = new LinkedHashMap<>();
-		startWords = new ArrayList<>();
-		combinations = new HashSet<>();
-		covered = new HashSet<>();
-		random = new Random();
+		this.analyzedContent = new LinkedHashMap<>();
+		this.startWords = new ArrayList<>();
+		this.combinations = new HashSet<>();
+		this.covered = new HashSet<>();
+		this.random = new Random();
 	}
 
 	/**
@@ -63,6 +63,7 @@ public class TrigramService {
 	 * @throws IOException if program fails to read the file
 	 */
 	public StringBuilder readFile(String inputFile) throws IOException {
+		log.debug("Inside readFile - starting the file read operation");
 		StringBuilder builder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile),StandardCharsets.UTF_8))) {
 			String line = br.readLine();
@@ -74,6 +75,7 @@ public class TrigramService {
 			log.error("Could not read the file!");
 			throw e;
 		}
+		log.debug("Inside readFile - file read completed without any issues");
 		return builder;
 	}
 
@@ -85,7 +87,8 @@ public class TrigramService {
 	 * @param String input - this is the pre-processed text
 	 * @throws InsufficientDataException when there is insufficient data to process
 	 */
-	public void processContent(String input) throws InsufficientDataException {
+	public void analyzeContent(String input) throws InsufficientDataException {
+		log.debug("Inside analyzeContent - checking if there is enough content to perform trigram analysis");
 		if (input == null)
 			throw new InsufficientDataException("No content inside the file!");
 		input = preProcessContent(input);
@@ -93,16 +96,18 @@ public class TrigramService {
 			throw new InsufficientDataException("No content inside the file!");
 		}
 		String[] arr = input.split("\\s+");
+		log.debug("Inside analyzeContent - total number of words in the file is "+arr.length);
 		if (arr.length <= 2) {
 			throw new InsufficientDataException(
 					"File contains only " + arr.length + " word(s) which is insufficient to initiate trigram analysis");
 		}
+		log.debug("Inside analyzeContent - starting the trigram analysis");
 		for (int i = 0; i < arr.length - 1; i++) {
 			WordPair pair = new WordPair(arr[i], arr[i + 1]);
-			startWords.add(pair);
-			List<String> followingWords = analyzedContent.get(pair);
+			this.startWords.add(pair);
+			List<String> followingWords = this.analyzedContent.get(pair);
 			if (followingWords == null) {
-				followingWords = new LinkedList<>();
+				followingWords = new ArrayList<>();
 			}
 			// for ending word pair in the content, treat empty string as a following word
 			if (i == arr.length - 2) {
@@ -111,9 +116,17 @@ public class TrigramService {
 				followingWords.add(arr[i + 2]);
 			}
 
-			Collections.shuffle(followingWords);
-			analyzedContent.put(pair, followingWords);
+			this.analyzedContent.put(pair, followingWords);
 		}
+		log.debug("Inside analyzeContent - trigram analysis completed");
+		log.debug("Inside analyzeContent - starting the word list shuffle for each WordPair");
+		// shuffle the list of words for each WordPair
+		for(Entry<WordPair,List<String>> entry: this.analyzedContent.entrySet()) {
+			List<String> list = entry.getValue();
+			Collections.shuffle(list);
+			this.analyzedContent.put(entry.getKey(), list);
+		}
+		log.debug("Inside analyzeContent - completed the word list shuffle for each WordPair");
 	}
 
 	/**
@@ -133,12 +146,14 @@ public class TrigramService {
 	 * This method triggers a recursive function by passing WordPair and initial value of story contents
 	 * @param int startingWordPair - this is the index of the WordPair that starts the story
 	 */
-	public void generateCombinations(int startingWordPair) {
-		WordPair pair = startWords.get(startingWordPair);
+	public void generateStory(int startingWordPair) {
+		log.debug("Inside generateStory - picking up starting word pair");
+		WordPair pair = this.startWords.get(startingWordPair);
 		List<String> combination = new ArrayList<>();
 		combination.add(pair.getFirst());
 		combination.add(pair.getSecond());
-		recursion(pair, combination);
+		log.debug("Inside generateStory - calling the recursive function to start creating the story");
+		this.contentTraversal(pair, combination);
 	}
 
 	/**
@@ -152,22 +167,23 @@ public class TrigramService {
 	 * @param WordPair pair - this is the WordPair at the beginning of story
 	 * @param List<String> combination - this is the list which stores series of words in the story
 	 */
-	public void recursion(WordPair pair, List<String> combination) {
-		Optional<List<String>> list = Optional.ofNullable(analyzedContent.get(pair));
+	public void contentTraversal(WordPair pair, List<String> combination) {
+		Optional<List<String>> list = Optional.ofNullable(this.analyzedContent.get(pair));
 		if (!list.isPresent()) {
-			combinations.add(combination);
+			log.debug("Inside contentTraversal - adding a valid story combination to the result");
+			this.combinations.add(combination);
 			return;
 		}
 		List<String> followingWords = list.get();
 		for (int i = 0; i < followingWords.size(); i++) {
 			String word = followingWords.get(i);
-			if (!covered.contains(generateComb(pair, i)) || followingWords.size() == 1) {
+			if (!this.covered.contains(generateComb(pair, i)) || followingWords.size() == 1) {
 				// creating a new list every time there is a branch
 				List<String> newCombination = new ArrayList<>();
 				newCombination.addAll(combination);
 				newCombination.add(word);
-				covered.add(generateComb(pair, i));
-				recursion(new WordPair(pair.getSecond(), word), newCombination);
+				this.covered.add(generateComb(pair, i));
+				contentTraversal(new WordPair(pair.getSecond(), word), newCombination);
 			}
 		}
 
@@ -191,6 +207,7 @@ public class TrigramService {
 	 * @throws IOException if program fails to write to file
 	 */
 	public void writeToFile(String outputFile) throws IOException {
+		log.debug("Inside writeToFile - starting the file write operation");
 		try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),StandardCharsets.UTF_8))) {
 			for (List<String> list : this.getCombinations()) {
 				br.write(String.join(" ", list));
@@ -199,6 +216,7 @@ public class TrigramService {
 			log.error("Could not write to the file!");
 			throw e;
 		}
+		log.debug("Inside writeToFile - file read completed without any issues");
 	}
 
 	/**
@@ -213,12 +231,12 @@ public class TrigramService {
 		log.info("Starting the trigram program");	
 		StringBuilder sb = this.readFile(inputFile);		
 		log.info("File contents read");
-		this.processContent(sb.toString());
+		this.analyzeContent(sb.toString());
 		log.info("Trigram analysis completed for the file contents");
 		// generate random index to pick up random word
 		int startWordIndex = (this.random.nextInt() & Integer.MAX_VALUE) % (this.getStartWords().size());
 		log.info("Random word pair picked up to start generating output is : " + this.getStartWords().get(startWordIndex));
-		this.generateCombinations(startWordIndex);
+		this.generateStory(startWordIndex);
 		log.info("A new story using trigrams has been created");
 		this.writeToFile(outputFile);
 		log.info("The output has been written into the file");
@@ -227,6 +245,7 @@ public class TrigramService {
 	public static void main(String[] args) {
 		TrigramService obj = new TrigramService();
 		try {
+			log.debug("Inside main - starting the program");
 			obj.process("input.txt","output.txt");
 		} catch (IOException | InsufficientDataException e) {
 			log.error(e.getMessage());
