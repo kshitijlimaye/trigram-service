@@ -59,11 +59,12 @@
 						</goals>
 						<configuration>
 							<shadedArtifactAttached>false</shadedArtifactAttached>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
 								<!-- add Main-Class to manifest file -->
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.jpmc.trigram.TrigramService</mainClass>
+									<mainClass>com.jpmc.trigram.App</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -78,7 +79,7 @@
 					<destFile>${project.build.directory}/jacoco.exec</destFile>
 					<append>true</append>
 					<excludes>
-						<exclude>**/model/*</exclude>
+						<exclude>**/model/*,**/App.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
