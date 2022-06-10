@@ -12,6 +12,12 @@ import com.jpmc.trigram.model.WordPair;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * This class generates contents for story using starting word pair
+ * and trigram analyzed content
+ * @author Kshitij_Limaye
+ *
+ */
 @Getter
 @Log4j2
 public class StoryGenerator {

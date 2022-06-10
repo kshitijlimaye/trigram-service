@@ -1,5 +1,11 @@
 package com.jpmc.trigram.exception;
 
+/**
+ * This exception will be raised when there is 
+ * insufficient data to perform trigram analysis
+ * @author Kshitij_Limaye
+ *
+ */
 public class InsufficientDataException extends Exception {
 
 	/**

@@ -8,6 +8,11 @@ import java.nio.charset.StandardCharsets;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+/**
+ * This class handles the file read operation
+ * @author Kshitij_Limaye
+ *
+ */
 @NoArgsConstructor
 @Log4j2
 public class FileDataReader {

@@ -8,11 +8,9 @@ import com.jpmc.trigram.service.TrigramService;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * Trigram Service - this service generates a story based on the trigram
- * analysis of the input text content. Algorithm uses random selection
- * technique, hence for same input content, you may get different result every time
- * 
- * Input contents need to be provided through a "input.txt" file 
+ * This is starter class to trigger processing
+ * Following assumption has been made
+ * Input contents will be provided through a "input.txt" file 
  * Output story is generated into "output.txt" file
  * 
  * @author Kshitij Limaye

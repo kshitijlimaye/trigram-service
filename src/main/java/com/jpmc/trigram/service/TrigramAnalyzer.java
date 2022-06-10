@@ -14,6 +14,13 @@ import com.jpmc.trigram.model.WordPair;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * This class takes the raw data from input file, carries out pre-processing
+ * and then builds a trigram map. It also returns a random word pair required to start
+ * story content generation.
+ * @author Kshitij_Limaye
+ *
+ */
 @Getter
 @Log4j2
 public class TrigramAnalyzer {

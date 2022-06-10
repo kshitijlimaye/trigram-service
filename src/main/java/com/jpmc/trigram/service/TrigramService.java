@@ -10,13 +10,9 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * Trigram Service - this service generates a story based on the trigram
- * analysis of the input text content. Algorithm uses random selection
- * technique, hence for same input content, you may get different result every time
- * 
- * Input contents need to be provided through a "input.txt" file 
- * Output story is generated into "output.txt" file
- * 
+ * This class interacts with all other business classes to
+ * get the job done. It sequentially calls file read, trigram analysis, 
+ * story creation and file write functions.
  * @author Kshitij Limaye
  *
  */
