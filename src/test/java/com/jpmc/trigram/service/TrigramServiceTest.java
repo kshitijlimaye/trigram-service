@@ -3,13 +3,14 @@ package com.jpmc.trigram.service;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.jpmc.trigram.exception.InsufficientDataException;
-import com.jpmc.trigram.service.TrigramService;
 
 public class TrigramServiceTest {
 	
@@ -18,6 +19,12 @@ public class TrigramServiceTest {
 	@BeforeEach
 	void init() {
 		trigramService = new TrigramService();
+	}
+	
+	@AfterAll
+	static void clearUpFiles() {
+		File file1 = new File("test_output.txt");
+		if(file1.exists()) file1.delete();
 	}
 	
 	@Test

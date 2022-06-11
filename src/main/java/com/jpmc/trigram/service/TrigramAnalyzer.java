@@ -2,7 +2,7 @@ package com.jpmc.trigram.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +29,7 @@ public class TrigramAnalyzer {
 	private Random random;
 	
 	public TrigramAnalyzer() {
-		this.analyzedContent = new LinkedHashMap<>();
+		this.analyzedContent = new HashMap<>();
 		this.startWords = new ArrayList<>();
 		this.random = new Random();
 	}

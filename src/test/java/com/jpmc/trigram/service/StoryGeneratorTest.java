@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import com.jpmc.trigram.exception.InsufficientDataException;
 import com.jpmc.trigram.model.WordPair;
-import com.jpmc.trigram.service.StoryGenerator;
-import com.jpmc.trigram.service.TrigramAnalyzer;
 
 public class StoryGeneratorTest {
 	StoryGenerator storyGenerator;
