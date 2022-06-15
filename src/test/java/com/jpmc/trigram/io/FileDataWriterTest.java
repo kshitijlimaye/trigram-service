@@ -20,7 +20,7 @@ public class FileDataWriterTest {
 	
 	@BeforeEach
 	void init() {
-		fileDataWriter = new FileDataWriter();
+		this.fileDataWriter = new FileDataWriter();
 	}
 	
 	@AfterAll
@@ -56,7 +56,8 @@ public class FileDataWriterTest {
 		set.add(Arrays.asList("Hello","world","from","UK"));
 		File file = new File("test_output.txt");
 		if(file.exists()) file.delete();
-		fileDataWriter.writeToFile("test_output.txt", set);
+		boolean result = fileDataWriter.writeToFile("test_output.txt", set);
 		assertEquals(true, file.exists());
+		assertEquals(true, result);
 	}
 }

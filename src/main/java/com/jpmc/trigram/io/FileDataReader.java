@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 /**
  * This class handles the file read operation
  * @author Kshitij_Limaye
  *
  */
-@NoArgsConstructor
+@AllArgsConstructor
 @Log4j2
 public class FileDataReader {
 	

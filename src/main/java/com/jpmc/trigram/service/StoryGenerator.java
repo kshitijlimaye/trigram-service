@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.jpmc.trigram.model.WordPair;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
  *
  */
 @Getter
+@AllArgsConstructor
 @Log4j2
 public class StoryGenerator {
 	

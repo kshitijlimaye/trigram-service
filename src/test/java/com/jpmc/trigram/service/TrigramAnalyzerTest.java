@@ -3,8 +3,11 @@ package com.jpmc.trigram.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,7 @@ public class TrigramAnalyzerTest {
 	
 	@BeforeEach
 	void init() {
-		trigramAnalyzer = new TrigramAnalyzer();
+		this.trigramAnalyzer = new TrigramAnalyzer(new HashMap<WordPair,List<String>>(), new ArrayList<WordPair>(), new Random());
 	}
 	
 	@Test
@@ -38,16 +41,24 @@ public class TrigramAnalyzerTest {
 	@Test
 	void when3WordsInput_shouldCreateValidTrigram() throws InsufficientDataException {
 		trigramAnalyzer.analyzeContent("How are you");
-		WordPair pair = new WordPair("How","are");
-		List<String> expected = Arrays.asList("you");
-		assertEquals(expected, trigramAnalyzer.getAnalyzedContent().get(pair));
+		WordPair pair1 = new WordPair("How","are");
+		List<String> expected1 = Arrays.asList("you");
+		WordPair pair2 = new WordPair("are","you");
+		List<String> expected2 = Arrays.asList("");
+		WordPair pair3 = new WordPair("you","");
+		List<String> expected3 = null;
+		assertEquals(expected1, trigramAnalyzer.getAnalyzedContent().get(pair1));
+		assertEquals(expected2, trigramAnalyzer.getAnalyzedContent().get(pair2));
+		assertEquals(expected3, trigramAnalyzer.getAnalyzedContent().get(pair3));
 	}
 	
 	@Test
 	void when3WordsInput_shouldAddEntryInStartWords() throws InsufficientDataException {
 		trigramAnalyzer.analyzeContent("How are you");
-		WordPair pair = new WordPair("How","are");
-		assertEquals(pair, trigramAnalyzer.getStartWords().get(0));
+		WordPair pair1 = new WordPair("How","are");
+		WordPair pair2 = new WordPair("are","you");
+		assertEquals(true, trigramAnalyzer.getStartWords().contains(pair1));
+		assertEquals(true, trigramAnalyzer.getStartWords().contains(pair2));
 	}
 	
 	

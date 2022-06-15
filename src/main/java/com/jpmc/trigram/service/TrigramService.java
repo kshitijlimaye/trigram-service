@@ -6,7 +6,7 @@ import com.jpmc.trigram.exception.InsufficientDataException;
 import com.jpmc.trigram.io.FileDataReader;
 import com.jpmc.trigram.io.FileDataWriter;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j2;
  *
  */
 
-@Getter
+@AllArgsConstructor
 @Log4j2
 public class TrigramService {
 	
@@ -26,14 +26,6 @@ public class TrigramService {
 	private FileDataReader fileDataReader;
 	private FileDataWriter fileDataWriter;
 	
-	public TrigramService() {
-		this.trigramAnalyzer = new TrigramAnalyzer();
-		this.storyGenerator = new StoryGenerator();
-		this.fileDataReader = new FileDataReader();
-		this.fileDataWriter = new FileDataWriter();
-	}
-	
-
 	/**
 	 * This is manager method that sequentially triggers file read, trigram analysis, 
 	 * story generation and file write operations.

@@ -1,47 +1,62 @@
 package com.jpmc.trigram.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.jpmc.trigram.exception.InsufficientDataException;
+import com.jpmc.trigram.io.FileDataReader;
+import com.jpmc.trigram.io.FileDataWriter;
+import com.jpmc.trigram.model.WordPair;
 
 public class TrigramServiceTest {
-	
+	@InjectMocks
 	TrigramService trigramService;
+	@Mock
+	TrigramAnalyzer trigramAnalyzer;
+	@Mock
+	StoryGenerator storyGenerator;
+	@Mock
+	FileDataReader fileDataReader;
+	@Mock
+	FileDataWriter fileDataWriter;
 	
 	@BeforeEach
-	void init() {
-		trigramService = new TrigramService();
+	void init() throws IOException {
+		MockitoAnnotations.initMocks(this);
+		StringBuilder builder = new StringBuilder("Hello world from UK");
+		Set<List<String>> result = new HashSet<>();
+		List<String> combination = Arrays.asList("Hello","world","from","UK");
+		result.add(combination);
+		Map<WordPair, List<String>> map = new HashMap<>();
+		map.put(new WordPair("Hello","world"), Arrays.asList("from"));
+		map.put(new WordPair("world","from"), Arrays.asList("UK"));
+		map.put(new WordPair("from","UK"), Arrays.asList(""));
+		map.put(new WordPair("UK",""), null);
+		when(fileDataReader.readFile(any())).thenReturn(builder);
+		when(trigramAnalyzer.getRandomWord()).thenReturn(new WordPair("Hello","world"));
+		when(trigramAnalyzer.getAnalyzedContent()).thenReturn(map);
+		when(storyGenerator.getCombinations()).thenReturn(result);
+		when(fileDataWriter.writeToFile(any(), any())).thenReturn(true);
 	}
-	
-	@AfterAll
-	static void clearUpFiles() {
-		File file1 = new File("test_output.txt");
-		if(file1.exists()) file1.delete();
-	}
-	
-	@Test
-	void whenDefaultConstructorUsed_shouldInstantiateAllVariables() {
-		assertNotNull(trigramService.getTrigramAnalyzer().getAnalyzedContent());
-		assertNotNull(trigramService.getStoryGenerator().getCombinations());
-		assertNotNull(trigramService.getStoryGenerator().getCovered());
-		assertNotNull(trigramService.getTrigramAnalyzer().getRandom());
-		assertNotNull(trigramService.getTrigramAnalyzer().getStartWords());
-		assertNotNull(trigramService.getFileDataReader());
-		assertNotNull(trigramService.getFileDataWriter());
-	}
-					
+
 	@Test
 	void whenGivenValidInput_processShouldNotThrowException() throws IOException, InsufficientDataException {
-		assertDoesNotThrow(() -> trigramService.process(ClassLoader.getSystemResource("test_read.txt").getFile(), "test_output.txt"));
+		assertDoesNotThrow(() -> trigramService.process("dummy1","dummy2"));
 	}
-
-
+	
 }

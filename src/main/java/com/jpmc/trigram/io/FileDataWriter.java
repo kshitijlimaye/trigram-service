@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
  * @author Kshitij_Limaye
  *
  */
-@NoArgsConstructor
+@AllArgsConstructor
 @Log4j2
 public class FileDataWriter {
 	
@@ -26,7 +26,7 @@ public class FileDataWriter {
 	 * @param String outputFile - path of the file along with file name
 	 * @throws IOException if program fails to write to file
 	 */
-	public void writeToFile(String outputFile, Set<List<String>> combinations) throws IOException {
+	public boolean writeToFile(String outputFile, Set<List<String>> combinations) throws IOException {
 		log.debug("Inside writeToFile - starting the file write operation");
 		try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),StandardCharsets.UTF_8))) {
 			for (List<String> list : combinations) {
@@ -37,5 +37,6 @@ public class FileDataWriter {
 			throw e;
 		}
 		log.debug("Inside writeToFile - file read completed without any issues");
+		return true;
 	}
 }

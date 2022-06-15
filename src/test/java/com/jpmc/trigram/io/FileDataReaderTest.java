@@ -14,7 +14,7 @@ public class FileDataReaderTest {
 	
 	@BeforeEach
 	void init() {
-		fileDataReader = new FileDataReader();
+		this.fileDataReader = new FileDataReader();
 	}
 	
 	@Test

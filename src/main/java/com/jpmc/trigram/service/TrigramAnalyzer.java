@@ -2,7 +2,6 @@ package com.jpmc.trigram.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,6 +10,7 @@ import java.util.Random;
 import com.jpmc.trigram.exception.InsufficientDataException;
 import com.jpmc.trigram.model.WordPair;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,17 +22,12 @@ import lombok.extern.log4j.Log4j2;
  *
  */
 @Getter
+@AllArgsConstructor
 @Log4j2
 public class TrigramAnalyzer {
 	private Map<WordPair, List<String>> analyzedContent;
 	private List<WordPair> startWords;
 	private Random random;
-	
-	public TrigramAnalyzer() {
-		this.analyzedContent = new HashMap<>();
-		this.startWords = new ArrayList<>();
-		this.random = new Random();
-	}
 	
 	/**
 	 * This method builds the trigram map where key is a WordPair and value
