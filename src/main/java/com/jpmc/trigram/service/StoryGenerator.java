@@ -1,7 +1,6 @@
 package com.jpmc.trigram.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,11 +25,6 @@ public class StoryGenerator {
 	
 	private Set<List<String>> combinations;
 	private Set<String> covered;
-	
-	public StoryGenerator() {
-		this.combinations = new HashSet<>();
-		this.covered = new HashSet<>();
-	}
 	
 	/**
 	 * This method triggers a recursive function by passing WordPair and initial value of story contents
