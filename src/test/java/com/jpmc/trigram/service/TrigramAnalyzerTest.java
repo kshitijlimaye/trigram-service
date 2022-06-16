@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ public class TrigramAnalyzerTest {
 	
 	@BeforeEach
 	void init() {
-		this.trigramAnalyzer = new TrigramAnalyzer(new Random());
+		this.trigramAnalyzer = new TrigramAnalyzer();
 	}
 	
 	@Test

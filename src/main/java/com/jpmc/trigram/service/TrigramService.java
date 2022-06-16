@@ -29,8 +29,8 @@ public class TrigramService {
 	/**
 	 * This is manager method that sequentially triggers file read, trigram analysis, 
 	 * story generation and file write operations.
-	 * @param String inputFile - path of the file along with file name
-	 * @param String outputFile - path of the file along with file name
+	 * @param inputFile - path of the file along with file name
+	 * @param outputFile - path of the file along with file name
 	 * @throws IOException when there is failure during read/write of the file
 	 * @throws InsufficientDataException when the input file contents are insufficient for trigram analysis
 	 */

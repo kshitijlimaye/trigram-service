@@ -1,7 +1,6 @@
 package com.jpmc.trigram;
 
 import java.io.IOException;
-import java.util.Random;
 
 import com.jpmc.trigram.exception.InsufficientDataException;
 import com.jpmc.trigram.io.FileDataReader;
@@ -28,10 +27,7 @@ public class App {
 	public static void main(String[] args) {
 		FileDataReader fileDataReader = new FileDataReader();
 		FileDataWriter fileDataWriter = new FileDataWriter();
-		
-		Random random = new Random();
-		TrigramAnalyzer trigramAnalyzer = new TrigramAnalyzer(random);
-		
+		TrigramAnalyzer trigramAnalyzer = new TrigramAnalyzer();
 		StoryGenerator storyGenerator = new StoryGenerator();
 		
 		TrigramService obj = new TrigramService(trigramAnalyzer, storyGenerator, fileDataReader, fileDataWriter);

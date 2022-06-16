@@ -28,10 +28,10 @@ public class TrigramAnalyzer {
 	private List<WordPair> startWords;
 	private Random random;
 	
-	public TrigramAnalyzer(Random random) {
+	public TrigramAnalyzer() {
 		this.analyzedContent = new HashMap<>();
 		this.startWords = new ArrayList<>();
-		this.random = random;
+		this.random = new Random();
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class TrigramAnalyzer {
 	 * is a list of words that follow this WordPair.
 	 * A blank entry is added in list for last WordPair to prevent program running indefinitely.
 	 * To introduce random selection, the list for each WordPair is shuffled.
-	 * @param String input - this is the pre-processed text
+	 * @param input - this is the pre-processed text
 	 * @throws InsufficientDataException when there is insufficient data to process
 	 */
 	public void analyzeContent(String input) throws InsufficientDataException {
@@ -87,8 +87,8 @@ public class TrigramAnalyzer {
 	/**
 	 * This method replaces new line with single space
 	 * and trims multiple spaces to single space
-	 * @param String raw - raw input text
-	 * @return String - pre-processed text	
+	 * @param raw - raw input text
+	 * @return pre-processed text	
 	 */
 	public String preProcessContent(String raw) {
 		String processed = "";
@@ -99,7 +99,7 @@ public class TrigramAnalyzer {
 	
 	/**
 	 * This method returns a random WordPair to start story creation
-	 * @return WordPair - a WordPair
+	 * @return a random Word pair
 	 */
 	public WordPair getRandomWord() {
 		log.debug("Inside getRandomWord - picking up a random starting word pair");

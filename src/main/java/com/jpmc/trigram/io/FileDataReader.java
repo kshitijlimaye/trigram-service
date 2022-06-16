@@ -19,7 +19,7 @@ public class FileDataReader {
 	
 	/**
 	 * This method reads the input file line by line into a StringBuilder
-	 * @param String inputFile - path of the file along with file name
+	 * @param inputFile - path of the file along with file name
 	 * @return StringBuilder which holds all the contents of the file
 	 * @throws IOException if program fails to read the file
 	 */

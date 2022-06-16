@@ -22,8 +22,8 @@ public class FileDataWriter {
 	
 	/**
 	 * This method writes the output story into the file
-	 * @param set 
-	 * @param String outputFile - path of the file along with file name
+	 * @param outputFile - path of the file along with file name
+	 * @param combinations - list of possible stories
 	 * @throws IOException if program fails to write to file
 	 */
 	public boolean writeToFile(String outputFile, Set<List<String>> combinations) throws IOException {
