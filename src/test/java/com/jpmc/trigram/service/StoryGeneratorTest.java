@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class StoryGeneratorTest {
 	
 	@BeforeEach
 	void init() {
-		this.storyGenerator = new StoryGenerator(new HashSet<List<String>>(), new HashSet<String>());
+		this.storyGenerator = new StoryGenerator();
 	}
 	
 	@Test

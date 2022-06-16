@@ -3,9 +3,7 @@ package com.jpmc.trigram.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -20,7 +18,7 @@ public class TrigramAnalyzerTest {
 	
 	@BeforeEach
 	void init() {
-		this.trigramAnalyzer = new TrigramAnalyzer(new HashMap<WordPair,List<String>>(), new ArrayList<WordPair>(), new Random());
+		this.trigramAnalyzer = new TrigramAnalyzer(new Random());
 	}
 	
 	@Test
