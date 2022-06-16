@@ -55,7 +55,22 @@ public class StoryGeneratorTest {
 	}
 	
 	@Test
-	void whenSampleInput_shouldReturnExpectedOutput1() throws InsufficientDataException {
+	void whenSampleInput1_shouldReturnExpectedOutput1() throws InsufficientDataException {
+		WordPair pair = new WordPair("I", "may");
+		Map<WordPair, List<String>> map = new HashMap<>();
+		map.put(new WordPair("I","wish"), Arrays.asList("I","I"));
+		map.put(new WordPair("wish","I"), Arrays.asList("might","may"));
+		map.put(new WordPair("I","may"), Arrays.asList("I"));
+		map.put(new WordPair("may","I"), Arrays.asList("wish"));
+		map.put(new WordPair("I","might"), Arrays.asList(""));
+		map.put(new WordPair("might",""), null);
+		storyGenerator.generateStory(pair, map);
+		String result = String.join(" ",storyGenerator.getCombinations().iterator().next());
+		assertEquals(true,result.equals("I may I wish I might "));
+	}
+	
+	@Test
+	void whenSampleInput2_shouldReturnExpectedOutput2() throws InsufficientDataException {
 		WordPair pair = new WordPair("I", "might");
 		Map<WordPair, List<String>> map = new HashMap<>();
 		map.put(new WordPair("I","wish"), Arrays.asList("I","I"));
