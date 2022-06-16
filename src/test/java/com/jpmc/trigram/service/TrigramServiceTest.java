@@ -1,6 +1,7 @@
 package com.jpmc.trigram.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -57,6 +58,11 @@ public class TrigramServiceTest {
 	@Test
 	void whenGivenValidInput_processShouldNotThrowException() throws IOException, InsufficientDataException {
 		assertDoesNotThrow(() -> trigramService.process("dummy1","dummy2"));
+	}
+	
+	@Test
+	void whenGivenValidInput_shouldEndWithSuccess() throws IOException, InsufficientDataException {
+		assertEquals(true, trigramService.process("dummy1","dummy2"));
 	}
 	
 }

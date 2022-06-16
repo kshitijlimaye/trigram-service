@@ -50,6 +50,17 @@ public class TrigramAnalyzerTest {
 	}
 	
 	@Test
+	void whenInputWithMultipleFollowingWords_shouldCreateValidTrigram() throws InsufficientDataException {
+		trigramAnalyzer.analyzeContent("I wish I may I wish I might");
+		WordPair pair1 = new WordPair("wish","I");
+		List<String> expected1 = Arrays.asList("may","might");
+		WordPair pair2 = new WordPair("I","wish");
+		List<String> expected2 = Arrays.asList("I","I");
+		assertEquals(expected1, trigramAnalyzer.getAnalyzedContent().get(pair1));
+		assertEquals(expected2, trigramAnalyzer.getAnalyzedContent().get(pair2));
+	}
+	
+	@Test
 	void when3WordsInput_shouldAddEntryInStartWords() throws InsufficientDataException {
 		trigramAnalyzer.analyzeContent("How are you");
 		WordPair pair1 = new WordPair("How","are");

@@ -34,7 +34,7 @@ public class TrigramService {
 	 * @throws IOException when there is failure during read/write of the file
 	 * @throws InsufficientDataException when the input file contents are insufficient for trigram analysis
 	 */
-	public void process(String inputFile, String outputFile) throws IOException, InsufficientDataException {
+	public boolean process(String inputFile, String outputFile) throws IOException, InsufficientDataException {
 		log.info("Starting the trigram program");	
 		StringBuilder sb = this.fileDataReader.readFile(inputFile);		
 		log.info("File contents read");
@@ -42,7 +42,8 @@ public class TrigramService {
 		log.info("Trigram analysis completed for the file contents");
 		this.storyGenerator.generateStory(trigramAnalyzer.getRandomWord(), trigramAnalyzer.getAnalyzedContent());
 		log.info("A new story using trigrams has been created");
-		this.fileDataWriter.writeToFile(outputFile, storyGenerator.getCombinations());
+		boolean result = this.fileDataWriter.writeToFile(outputFile, storyGenerator.getCombinations());
 		log.info("The output has been written into the file");
+		return result;
 	}
 }
