@@ -55,7 +55,7 @@ public class StoryGeneratorTest {
 		WordPair pair = new WordPair("I", "may");
 		Map<WordPair, List<String>> map = new HashMap<>();
 		map.put(new WordPair("I","wish"), Arrays.asList("I","I"));
-		map.put(new WordPair("wish","I"), Arrays.asList("might","may"));
+		map.put(new WordPair("wish","I"), Arrays.asList("may","might"));
 		map.put(new WordPair("I","may"), Arrays.asList("I"));
 		map.put(new WordPair("may","I"), Arrays.asList("wish"));
 		map.put(new WordPair("I","might"), Arrays.asList(""));
@@ -64,7 +64,6 @@ public class StoryGeneratorTest {
 		doReturn("might").when(mock).getRandomNextWord(Arrays.asList("may","might"));
 		mock.generateStory(pair, map);
 		String result = String.join(" ",mock.getCombinations().iterator().next());
-		System.out.println(result);
 		assertEquals(true,result.equals("I may I wish I might "));
 	}
 	

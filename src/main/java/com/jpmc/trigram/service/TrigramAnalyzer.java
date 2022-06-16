@@ -1,11 +1,9 @@
 package com.jpmc.trigram.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import com.jpmc.trigram.exception.InsufficientDataException;
@@ -38,7 +36,6 @@ public class TrigramAnalyzer {
 	 * This method builds the trigram map where key is a WordPair and value
 	 * is a list of words that follow this WordPair.
 	 * A blank entry is added in list for last WordPair to prevent program running indefinitely.
-	 * To introduce random selection, the list for each WordPair is shuffled.
 	 * @param input - this is the pre-processed text
 	 * @throws InsufficientDataException when there is insufficient data to process
 	 */
@@ -74,14 +71,6 @@ public class TrigramAnalyzer {
 			this.analyzedContent.put(pair, followingWords);
 		}
 		log.debug("Inside analyzeContent - trigram analysis completed");
-		log.debug("Inside analyzeContent - starting the word list shuffle for each WordPair");
-		// shuffle the list of words for each WordPair
-		for(Entry<WordPair,List<String>> entry: this.analyzedContent.entrySet()) {
-			List<String> list = entry.getValue();
-			Collections.shuffle(list);
-			this.analyzedContent.put(entry.getKey(), list);
-		}
-		log.debug("Inside analyzeContent - completed the word list shuffle for each WordPair");
 	}
 	
 	/**
